@@ -51,6 +51,7 @@ module TooDone
           puts "Make sure you select one of the IDs above."
           id = STDIN.gets.chomp.to_i
         end    
+        # having added dependency I can prolly do list.item.update() instead of instantiating the Item.
         item = Item.find(id)
         # allow the user to change the title, due date
 
@@ -90,7 +91,10 @@ module TooDone
         until list.items.map{ |i| i.id if !i.is_completed? }.include?(id)
           puts "Make sure to select one of the IDs above."
           id = STDIN.gets.chomp.to_i
-        end          
+        end      
+
+# having added dependency I can prolly do list.item.update() instead of instantiating the Item.
+
         item = Item.find(id)
         item.update(is_completed: true)
         puts "Task item #{item.id} has been marked as completed. #{item.is_completed}"
@@ -117,33 +121,51 @@ module TooDone
         items = Item.where("due_date < ? AND list_id = ? AND is_completed = ?", Time.now, list.id, options[:completed])
       else
         order = "created_at DESC"
-        items = Item.where("due_date NOT ? AND list_id = ? AND is_completed = ?", nil, list.id, options[:completed])
+        items = Item.where("list_id = ? AND is_completed = ?", list.id, options[:completed])
       end
       items = items.order(order)
       puts "++ Task ======= Due Date ======== Is Completed === List Name ++"
       items.each do |i|
         puts "#{i.task} - #{i.due_date} - #{i.is_completed} - #{list.name}"
       end
-      #list.items.each do 
     end
 
     desc "delete [LIST OR USER]", "Delete a todo list or a user."
-    option :list, :aliases => :l, :default => "*default*",
+    option :list, :aliases => :l,
       :desc => "The todo list which will be deleted (including items)."
     option :user, :aliases => :u,
       :desc => "The user which will be deleted (including lists and items)."
     def delete
       # BAIL if both list and user options are provided
-      # BAIL if neither list or user option is provided
+      if options[:list] && options[:user]
+        puts "You cannot provide both List and User at once."
+      # BAIL if neither list or user option is provided  
+      elsif !options[:list] && !options[:user]
+        puts "You must provide either a List or a User."
+      end
       # find the matching user or list
+      list = List.find_by(name: options[:list])
+      user = User.find_by(name: options[:user])
       # BAIL if the user or list couldn't be found
+      if !list && !user && options[:user]
+        puts "#{options[:user]} is not a valid User."
+      elsif !list && !user && options[:list]
+        puts "#{options[:list]} is not a valid List."
       # delete them (and any dependents)
+      elsif list
+        list.destroy
+        puts "#{list.name} and all of its task items have been deleted."
+      elsif user
+        user.destroy
+        puts "#{user.name}, its lists, items, and sessions have been deleted."
+      end
     end
 
     desc "switch USER", "Switch session to manage USER's todo lists."
     def switch(username)
       user = User.find_or_create_by(name: username)
       user.sessions.create
+      puts "User #{user.name} is now in session."
     end
 
     private
