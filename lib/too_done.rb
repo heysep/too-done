@@ -111,10 +111,10 @@ module TooDone
       # show the tasks ordered as requested, default to reverse order (recently entered first)
       if options[:sort] == "history"
         order = "created_at ASC"
-        items = Item.where("due_date NOT ?", nil)
+        items = Item.where("due_date NOT ? AND list_id = ? AND is_completed = ?", nil, list.id, options[:completed])
       elsif options[:sort] == "overdue"
         order = "due_date DESC"
-        items = Item.where("due_date < ?", Time.now)
+        items = Item.where("due_date < ? AND list_id = ? AND is_completed = ?", Time.now, list.id, options[:completed])
       else
         order = "created_at DESC"
         items = Item.where("due_date NOT ? AND list_id = ? AND is_completed = ?", nil, list.id, options[:completed])
