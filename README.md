@@ -1,8 +1,8 @@
 # TooDone
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/too_done`. To experiment with that code, run `bin/console` for an interactive prompt.
+TooDone is a CLI based to-do-list app I built at The Iron Yard Academy. 
 
-TODO: Delete this and the text above, and describe your gem
+It uses Thor gem as the main mechanism for interacting through the CLI.
 
 ## Installation
 
@@ -22,7 +22,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can run the app with `bundle exec ruby lib/too_dead.rb SUBCOMMAND ARGS` but since that is so verbose, you might want to add a shell alias to make your life easier.
+
+Shell aliases are just shorthand for longer commands. Writing
+
+`alias tasks="bundle exec ruby lib/too_done.rb"`
+
+would allow you to run the app with tasks SUBCOMMAND ARGS which is much more convenient.
+
+### Available Subcommands
+
+```
+  too_done.rb add 'TASK'             # Add a TASK to a todo list.
+  too_done.rb delete [LIST OR USER]  # Delete a todo list or a user.
+  too_done.rb done                   # Mark a task as completed.
+  too_done.rb edit                   # Edit a task from a todo list.
+  too_done.rb help [COMMAND]         # Describe available commands or one specific command
+  too_done.rb show                   # Show the tasks on a todo list in reverse order.
+  too_done.rb switch USER            # Switch session to manage USER's todo lists.
+```
 
 ## Development
 
