@@ -4,21 +4,35 @@ TooDone is a CLI based to-do-list app I built at The Iron Yard Academy.
 
 It uses Thor gem as the main mechanism for interacting through the CLI.
 
-## Installation
+## Objectives
 
-Add this line to your application's Gemfile:
+### Learning Objectives
 
-```ruby
-gem 'too_done'
-```
+* Understand basic database modeling and associations
+* Understand how to create, delete, and query models
+* Understand how to write migrations to update the schema
+* Understand how to use models in a larger application
 
-And then execute:
+### Performance Objectives
 
-    $ bundle
+* Use `belongs_to` and `has_many` associations competently
+* Use ActiveRecord to manage the database schema and models
+* Use modules to avoid polluting ruby's global namespace
 
-Or install it yourself as:
+## Functionality
 
-    $ gem install too_done
+Migrations, models, and associations for:
+
+   * Users
+   * Todo Lists
+   * Tasks
+
+Features:
+
+1. You can show completed todo items.
+2. You can sort to show overdue todo items or reverse chronological order.
+3. When lists are deleted, all todo items should also be deleted.
+4. When accounts are deleted, their lists and items should be deleted.
 
 ## Usage
 
@@ -41,19 +55,3 @@ would allow you to run the app with tasks SUBCOMMAND ARGS which is much more con
   too_done.rb show                   # Show the tasks on a todo list in reverse order.
   too_done.rb switch USER            # Switch session to manage USER's todo lists.
 ```
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/too_done. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
